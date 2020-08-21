@@ -23,7 +23,7 @@ us=Hash.new
 regions[0].css('a').each {|r| us.merge!(name_link r)}
 
 world=Hash.new
-regions[1].css('a').each {|r| us.merge!(name_link r)}
+regions[1].css('a').each {|r| world.merge!(name_link r)}
 
 
 puts us
