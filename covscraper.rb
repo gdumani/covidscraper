@@ -19,9 +19,12 @@ separator="div.RegionMenu_items__3D_d2"
 
 regions= load_html(uri,link).css(separator)
 
-us = regions[0].css('a').map {|r| name_link r}
+us=Hash.new
+regions[0].css('a').each {|r| us.merge!(name_link r)}
 
-world = regions[1].css('a').map {|r| name_link r}
+world=Hash.new
+regions[1].css('a').each {|r| us.merge!(name_link r)}
+
 
 puts us
 puts world
