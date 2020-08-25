@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'nokogiri'
 require 'watir'
+require 'pry'
 
 def load_html(site,link)
   page = open(site + link)
@@ -8,32 +9,61 @@ def load_html(site,link)
 end
 
 def name_link(reg)
-  name=reg.css('span').to_s.gsub(/<[^>]+>/,'')
+  name=untag(reg.css('span'))
   ref= reg.map.to_h['href']
   {name => ref}
 end
 
-uri='http://coronavirus.jhu.edu'
-link="/region"
-separator="div.RegionMenu_items__3D_d2"
-
-regions= load_html(uri,link).css(separator)
-
-us=Hash.new
-regions[0].css('a').each {|r| us.merge!(name_link r)}
-
-world=Hash.new
-regions[1].css('a').each {|r| world.merge!(name_link r)}
-
-browser=Watir::Browser.new
-usdata=Hash.new
-us.each do |k,v|
-  browser.goto uri+v
-  data=((Nokogiri::HTML(browser.html)).css('div.RegionOverview_overviewBlock__32xzs')).to_a 
-  clean=Hash.new
-  data.each {|d| clean.merge!({d.css('h3').to_s.gsub(/<[^>]+>/,'').chop => d.css('span').to_s.gsub(/<[^>]+>/,'')})} 
-  usdata.merge!({k=>[{'Page link'=>v}.merge!(clean)]})
+def extract_pages(region,buttons,browser,uri,item_class,separator_item)
+  result=Hash.new
+  region.each do |k,v|
+    browser.goto uri+v
+    until browser.span(class:item_class).exists? do
+      puts k   
+    end
+    resbtn=Hash.new
+    buttons.each do |btn|
+      browser.button(text:btn).click
+      data=((Nokogiri::HTML(browser.html)).css(separator_item)).to_a
+      clean=Hash.new
+      data.each do |d| 
+        d_item=d.css('span').map {|item| untag(item)}
+        clean.merge!({(untag(d.css('h3'))).chop => d_item})
+      end 
+      resbtn.merge!({btn=>clean})
+    end
+    result.merge!({k=>resbtn})
+  end
+  result
 end
 
-puts us
-puts world
+def untag(tagged)
+  tagged.to_s.gsub(/<[^>]+>/,'')
+end
+
+uri='http://coronavirus.jhu.edu'
+link="/region"
+# params={
+#   'buttons' => ['All Time','Past Day','Past Week','Past Month'],
+#   'separator_region' => "div.RegionMenu_items__3D_d2",
+#   'separator_item' => 'div.RegionOverview_overviewBlock__32xzs',
+#   'item_class' => "RegionOverview_statValue__xtlKt"}
+
+buttons = ['All Time','Past Day','Past Week','Past Month']
+separator_region = "div.RegionMenu_items__3D_d2"
+separator_item = 'div.RegionOverview_overviewBlock__32xzs'
+item_class = "RegionOverview_statValue__xtlKt"
+
+regions= load_html(uri,link).css(separator_region)
+
+us_links = Hash.new
+regions[0].css('a').each {|r| us_links.merge!(name_link r)}
+
+world_links = Hash.new
+regions[1].css('a').each {|r| world_links.merge!(name_link r)}
+
+browser=Watir::Browser.new
+# us=extract_pages(us_links, buttons, browser,uri,item_class,separator_item)
+world=extract_pages(world_links, buttons, browser,uri,item_class,separator_item)
+pry 
+
