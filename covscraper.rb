@@ -18,9 +18,7 @@ def extract_pages(region,buttons,browser,uri,item_class,separator_item)
   result=Hash.new
   region.each do |k,v|
     browser.goto uri+v
-    until browser.span(class:item_class).exists? do
-      puts k   
-    end
+    browser.wait_until {|b| b.span(class:item_class).text != "Loading..."}
     resbtn=Hash.new
     buttons.each do |btn|
       browser.button(text:btn).click
@@ -63,7 +61,8 @@ world_links = Hash.new
 regions[1].css('a').each {|r| world_links.merge!(name_link r)}
 
 browser=Watir::Browser.new
-# us=extract_pages(us_links, buttons, browser,uri,item_class,separator_item)
+us=extract_pages(us_links, buttons, browser,uri,item_class,separator_item)
 world=extract_pages(world_links, buttons, browser,uri,item_class,separator_item)
+puts "information is stored in Hashes \"us\" and \"world\". " 
 pry 
 
