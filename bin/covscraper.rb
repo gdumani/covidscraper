@@ -9,7 +9,7 @@ rgn = RegionsJhu.new
 browser = Watir::Browser.new
 scrap = ScrapJhu.new browser
 
-puts "Examples on to extract the information:\n "
+puts "Examples on how to extract the information:\n "
 puts '   us_data = scrap.extract.(rgn.us)'
 puts '   world_data = scrap.extract.(rgn.world)'
 puts '   scrap.extract(rgn.country("Costa Rica"))'
