@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 require 'watir'
 require_relative './modules'
 
+# Scrapper tool for coronavirus.JHU.edu
 class ScrapJhu
   include Filters
   attr_reader :result
@@ -11,29 +14,40 @@ class ScrapJhu
     @separator_region = 'div.RegionMenu_items__3D_d2'
     @separator_item = 'div.RegionOverview_overviewBlock__32xzs'
     @item_class = 'RegionOverview_statValue__xtlKt'
-    @browser=browser
-    @result={} 
+    @browser = browser
+    @result = {}
   end
 
-
   def extract(region)
-    res={}
+    res = {}
     region.each do |k, v|
       @browser.goto @uri + v
       @browser.wait_until { |b| b.span(class: @item_class).text != 'Loading...' }
-      resbtn = {}
-      @buttons.each do |btn|
-        @browser.button(text: btn).click
-        data = Nokogiri::HTML(@browser.html).css(@separator_item).to_a
-        clean = {}
-        data.each do |d|
-          d_value = d.css('span').map { |x| untag(x) }
-          clean.merge!({ untag(d.css('h3')).chop => d_value })
-        end
-        resbtn.merge!({ btn => clean })
-      end
+      resbtn = clicker
       res.merge!({ k => resbtn })
     end
-    @result=res
+    @result = res
+  end
+
+  private
+
+  def clicker
+    resbtn = {}
+    @buttons.each do |btn|
+      @browser.button(text: btn).click
+      data = Nokogiri::HTML(@browser.html).css(@separator_item).to_a
+      clean = cleaner(data)
+      resbtn.merge!({ btn => clean })
+    end
+    resbtn
+  end
+
+  def cleaner(data)
+    clean = {}
+    data.each do |d|
+      d_value = d.css('span').map { |x| untag(x) }
+      clean.merge!({ untag(d.css('h3')).chop => d_value })
+    end
+    clean
   end
 end

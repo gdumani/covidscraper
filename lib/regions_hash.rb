@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'open-uri'
 require 'nokogiri'
 require_relative './modules'
 
+# Tool to extract links required to fetch covid data form coronavirus.jhu.edu
 class RegionsJhu
   include Filters
   attr_reader :us, :world
@@ -15,28 +18,28 @@ class RegionsJhu
   end
 
   def country(var)
-    @world.select {|k,v| k==var}
+    @world.select { |k, _v| k == var }
   end
 
   def state(var)
-    @us.select {|k,v| k==var}
+    @us.select { |k, _v| k == var }
   end
 
   private
 
   def load_html(site, link)
-    page = open(site + link)
+    page = URI.open(site + link)
     Nokogiri::HTML(page)
   end
-  
+
   def extract_link(reg)
     name = untag(reg.css('span'))
     ref = reg.map.to_h['href']
     { name => ref }
   end
-  
+
   def links_hash(reg)
-    res={}
+    res = {}
     reg.css('a').each { |r| res.merge!(extract_link(r)) }
     res
   end
