@@ -18,6 +18,6 @@ puts "\nto retrieve the last query type"
 puts "   scrap.result\n"
 puts "\nexit to quit\n"
 
-scrap.extract(rgn.state('New York'))
+# scrap.extract(rgn.state('New York'))
 
 pry

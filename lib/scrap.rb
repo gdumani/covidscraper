@@ -7,7 +7,7 @@ require_relative './modules'
 # Scrapper tool for coronavirus.JHU.edu
 class ScrapJhu
   include Filters
-  attr_reader :result
+  attr_reader :result, :browser_status
   def initialize(browser)
     @uri = 'http://coronavirus.jhu.edu'
     @buttons = ['All Time', 'Past Day', 'Past Week', 'Past Month']
@@ -15,6 +15,7 @@ class ScrapJhu
     @separator_item = 'div.RegionOverview_overviewBlock__32xzs'
     @item_class = 'RegionOverview_statValue__xtlKt'
     @browser = browser
+    @browser_status = @browser.class.to_s
     @result = {}
   end
 
