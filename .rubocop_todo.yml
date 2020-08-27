@@ -11,3 +11,6 @@
 # ExcludedMethods: refine
 Metrics/BlockLength:
   Max: 39
+
+Layout/LineLength:
+  Max: 90
