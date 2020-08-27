@@ -70,7 +70,7 @@ It uses a browser instance created by Watir gem to retrieve the information for 
 
 ## Screenshots
 
-![screenshot](/images/covscraper-intro_.png)
+![screenshot](/images/covscraper-intro.png)
 ![screenshot](/images/us-links.png)
 ![screenshot](/images/region-data.png)
 ![screenshot](/images/us-state.png)
