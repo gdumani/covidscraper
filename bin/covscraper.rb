@@ -2,7 +2,6 @@
 
 require 'pry'
 require 'awesome_print'
-require_relative '../lib/modules'
 require_relative '../lib/scrap'
 require_relative '../lib/regions_hash'
 
