@@ -1,0 +1,21 @@
+name: Tests
+
+on: pull_request
+
+jobs:
+  rspec:
+    name: RSpec
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.6.x
+      - name: Setup RSpec
+        run: |
+          # [ -f Gemfile ] && bundle install --deployment
+          gem install --no-document nokogiri:'~>1.10.10'
+          gem install --no-document watir:'~>6.17'
+          gem install --no-document rspec:'~>3.9'
+      - name: RSpec Report
+        run: rspec --force-color --format documentation
