@@ -26,10 +26,12 @@ Testing was performed with Rspec 3.9
 ### Git
 To download the sofware git is required
 For instructions on how to install it, follow this link:
+
 `https://github.com/git-guides/install-git`
 
 ### Chrome
 The Watir gem requires a web browser to retrieve the web site. It is compatible with other browser, but it was Chrome was used for this applicaton. It can be found here:
+
 `https://www.google.com/chrome/`
 
 ### Chromedriver 
@@ -48,7 +50,9 @@ To verify the ruby installation go to this link:
 
 ​Get a local copy:​ 
 In your selected directory type
+
 `git clone https://github.com/gdumani/covidscraper.git`
+
 `cd covidscraper`
 
 In the covid scrapper directory install the required gems:
@@ -58,7 +62,9 @@ In the covid scrapper directory install the required gems:
 
 ## Commands
 In the bin directory 
+
 `cd bin`
+
 `ruby covidscraper.rb`
 
 ## Intructions
@@ -78,21 +84,30 @@ It uses a browser instance created by Watir gem to retrieve the information for 
   - `scrap.extract rgn.country "Canada"`
   - `scrap.extract rgn.state "Ohio"`
   - `scrap.result`
-  - `scrap.result[ location-key ]` location-key can be a state or country depending on data in `result`.
+  - `scrap.result[ location-key ]`
+  
+  Location-key can be a state or country depending on the data in `result`.
   Because `result` is a multilevel hash it can be digged down using hash keys and hash tools.
   AwesomePrint is integrated to facilitate data presentation. Example
    - `ap scrap.result`
+
+  To quit the program type
+   - `exit`
+
 
 ### Example on how to scrap a specific group inside region
 Lets try to retrieve the information for Centra America
 Create the array of selected countries:
 - `ca=['Guatemala','Honduras','Belize','El Salvador','Nicaragua','Costa Rica','Panama']`
+
 Use rgn to retrieve link hashes for each country and merge them into a single hash
 - `ca.map! {|x| rgn.country x}`
 - `ca = ca.inject(:merge)`
+
 Use the hash to retrieve the desired information using scrap:
 - `scrap.extract ca`
 - `ap scrap.result`
+
 
 ## Screenshots
 
