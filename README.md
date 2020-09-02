@@ -30,7 +30,7 @@ For instructions on how to install it, follow this link:
 `https://github.com/git-guides/install-git`
 
 ### Chrome
-The Watir gem requires a web browser to retrieve the web site. It is compatible with other browser, but it was Chrome was used for this applicaton. It can be found here:
+The Watir gem requires a web browser to retrieve the web site. It is compatible with other browsers, but Chrome was used for this applicaton. It can be found here:
 
 `https://www.google.com/chrome/`
 
@@ -39,7 +39,7 @@ Chrome driver is required by Watir to fetch web pages.
 Follow instructions from: `https://chromedriver.chromium.org/`.
 
 Quick tips:
-Verify that your are downloading the driver corresponding to your Chrome version!
+Verify that you are downloading the driver corresponding to your Chrome version!
 After downloading, unpack the file and copy it to a location in your path or add its current location to it.
 
 ### Ruby
@@ -123,9 +123,9 @@ Use the hash to retrieve the desired information using scrap:
 
 Go to the covitscraper directory. Rspec was installed by Bundler.
 
-- To run curren tests just type: `rspec` 
+- To run current tests just type: `rspec` 
 
-New test can be added in ./spec/main_spec.rb file following the Rspec guidelines.
+New tests can be added in ./spec/main_spec.rb file following the Rspec guidelines.
 
 ## Program Files
 
